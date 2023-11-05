@@ -26,10 +26,11 @@
     "src/**/*.vue",
     "src/**/*.json",
     "vite.config.ts",
-    "auto-imports.d.ts"
+    "auto-imports.d.ts",
+    "middware.ts"
   ],
   "exclude": ["node_modules/**", "**/dist"],
   "vueCompilerOptions": {
-    "plugins": ["@volar/vue-language-plugin-pug"]
+    "plugins": ["@vue/language-plugin-pug"]
   }
 }
