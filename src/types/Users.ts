@@ -1,6 +1,15 @@
 import { Artwork, ArtworkInfo } from './Artworks'
 
-export type UserPrivacyLevel = '0' | '1' | '2'
+export enum UserPrivacyLevel {
+  SAFE,
+  R18,
+  R18G,
+}
+export enum UserXRestrict {
+  PUBLIC_FOR_ALL,
+  PUBLIC_FOR_FRIENDS,
+  PRIVATE,
+}
 
 export interface User {
   userId: `${number}`
@@ -78,15 +87,33 @@ export interface User {
 }
 
 export interface PixivUser {
-  id: string
+  id: `${number}`
   pixivId: string
   name: string
   profileImg: string
   profileImgBig: string
   premium: boolean
-  xRestrict: 0 | 1 | 2
+  xRestrict: UserXRestrict
   adult: boolean
-  safeMode: boolean
   illustCreator: boolean
   novelCreator: boolean
+  hideAiWorks: boolean
+  readingStatusEnabled: boolean
+  illustMaskRules: any[]
+  location: string
+  isSensitiveViewable: boolean
+}
+
+export interface UserListItem {
+  userId: `${number}`
+  userName: string
+  profileImageUrl: string
+  userComment: string
+  following: boolean
+  followed: boolean
+  isBlocking: boolean
+  isMypixiv: boolean
+  illusts: ArtworkInfo[]
+  novels: any[]
+  acceptRequest: boolean
 }

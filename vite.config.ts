@@ -4,6 +4,8 @@ import vue from '@vitejs/plugin-vue'
 import AutoImport from 'unplugin-auto-import/vite'
 import Icons from 'unplugin-icons/vite'
 import IconResolver from 'unplugin-icons/resolver'
+import Components from 'unplugin-vue-components/vite'
+import { NaiveUiResolver } from 'unplugin-vue-components/resolvers'
 
 const PROD = process.env.NODE_ENV === 'production'
 
@@ -26,13 +28,26 @@ export default defineConfig({
           },
         }),
       ],
+      dirs: ['src/components/**', 'src/composables', 'src/utils', 'src/types'],
     }),
+    Components({ dts: true, resolvers: [NaiveUiResolver()] }),
     Icons({
       scale: 1,
       defaultClass: 'svg--inline',
     }),
   ],
   build: {},
+  css: {
+    preprocessorOptions: {
+      sass: {
+        /**
+         * vite 还没有跟进这个，我们先手动设置
+         * @see https://sass-lang.com/d/legacy-js-api
+         */
+        api: 'modern',
+      },
+    },
+  },
   esbuild: {
     drop: PROD ? ['console'] : [],
   },

@@ -37,6 +37,7 @@
           lazyload
         )
         .hover-title {{ item.title }}
+        .type-ugoira(v-if='item.illustType === IllustType.UGOIRA'): IPlayCircle
     .artwork-info
       .title
         RouterLink(:to='"/artworks/" + item.id') {{ item.title }}
@@ -50,10 +51,12 @@
 import LazyLoad from '../LazyLoad.vue'
 import { addBookmark, removeBookmark } from '@/utils/artworkActions'
 import { NSkeleton } from 'naive-ui'
+import { IllustType } from '@/types'
 import IFasEye from '~icons/fa-solid/eye'
 import IFasHeart from '~icons/fa-solid/heart'
 import IFasImages from '~icons/fa-solid/images'
 import IFasRobot from '~icons/fa-solid/robot'
+import IPlayCircle from '~icons/fa-solid/play-circle'
 
 import type { ArtworkInfo } from '@/types'
 
@@ -123,7 +126,7 @@ async function handleBookmark() {
     top: 0
     width: 100%
     height: 100%
-    transition: all 0.4s ease-in-out
+    transition: all 0.25s ease-in-out
 
   .bookmark
     cursor: pointer
@@ -141,18 +144,30 @@ async function handleBookmark() {
     font-weight: 600
     pointer-events: none
     opacity: 0
-    transition: all 0.4s ease-in-out
+    transition: all 0.25s ease-in-out
+
+  .type-ugoira
+    position: absolute
+    pointer-events: none
+    top: 50%
+    left: 50%
+    font-size: 2.5rem
+    color: #fff
+    opacity: 0.75
+    transform: translate(-50%, -50%)
+    transition: all 0.25s ease-in-out
 
   &:hover a,
   & a.router-link-active
     &::before
       background-color: rgba(0, 0, 0, 0.2)
-
     img
-      transform: scale(1.1)
-
+      transform: scale(1.2)
     .hover-title
       opacity: 1
+    .type-ugoira
+      opacity: 0
+      transform: translate(-50%, -50%) scale(1.5)
 
   .router-link-active
     cursor: default

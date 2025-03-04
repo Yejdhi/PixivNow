@@ -1,19 +1,18 @@
 <template lang="pug">
-//- ul.artwork-large-list
-//-   li(v-for='item in artworks')
-VueFlexWaterfall.artwork-large-list(
-  :break-at='{ 1200: 4, 900: 3, 600: 2, 300: 1 }'
-  align-content='center'
-  col='5'
-  col-spacing='16'
+Waterfall.artwork-large-list(
+  :breakpoints='{ 9999: { rowPerView: 6 }, 1600: { rowPerView: 5 }, 1200: { rowPerView: 4 }, 750: { rowPerView: 3 }, 640: { rowPerView: 2 }, 380: { rowPerView: 1 } }',
+  :list='artworks'
+  ref='waterfallRef'
 )
-  ArtworkLargeCard(:illust='item[0]', :rank='item[1]' v-for='item in artworks')
+  template(#default='{ item, index }')
+    ArtworkLargeCard(:illust='item[0]', :key='index', :rank='item[1]')
 </template>
 
 <script lang="ts" setup>
 import ArtworkLargeCard from './ArtworkLargeCard.vue'
-import { VueFlexWaterfall } from 'vue-flex-waterfall'
 import type { ArtworkInfo, ArtworkRank } from '@/types'
+import { Waterfall } from 'vue-waterfall-plugin-next'
+import 'vue-waterfall-plugin-next/dist/style.css'
 
 const props = defineProps<{
   rankList?: ArtworkRank[]
@@ -67,6 +66,21 @@ function convertRankToInfo(rankInfo: ArtworkRank[]): [ArtworkInfo, number][] {
     ]
   })
 }
+
+const waterfallRef = ref<any>()
+
+function resize() {
+  waterfallRef.value?.renderer()
+}
+
+onMounted(async () => {
+  await nextTick()
+  const event = new Event('resize')
+  window.dispatchEvent(event)
+})
 </script>
 
-<style lang="sass"></style>
+<style lang="sass">
+.artwork-large-list
+  align-items: center
+</style>

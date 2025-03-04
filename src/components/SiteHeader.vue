@@ -59,6 +59,18 @@ header.global-navbar(:class='{ "not-at-top": notAtTop, hidden }')
                     ) {{ userStore.userName }}
                     .uid @{{ userStore.userPixivId }}
 
+              li(v-if='userStore.isLoggedIn')
+                RouterLink.plain(
+                  :to='{ name: "users", params: { id: userStore.userId }, query: { tab: "public_bookmarks" } }'
+                ) 公开收藏
+              li(v-if='userStore.isLoggedIn')
+                RouterLink.plain(
+                  :to='{ name: "users", params: { id: userStore.userId }, query: { tab: "hidden_bookmarks" } }'
+                ) 私密收藏
+              li(v-if='userStore.isLoggedIn')
+                RouterLink.plain(
+                  :to='{ name: "following", params: { id: userStore.userId } }'
+                ) 我的关注
               li(v-if='$route.path !== "/login"')
                 RouterLink.plain(:to='"/login?back=" + $route.path') {{ userStore.isLoggedIn ? '查看令牌' : '用户登入' }}
               li(v-if='userStore.isLoggedIn')
@@ -130,7 +142,7 @@ onMounted(() => {
   color: var(--theme-background-color)
   display: flex
   align-items: center
-  position: fixed
+  position: sticky
   height: 50px
   width: 100%
   box-sizing: border-box
